@@ -1,0 +1,39 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  name       String
+  password   String
+  role       Role
+  assignment Assignment?
+}
+
+model Shift {
+  id         Int         @id @default(autoincrement())
+  startTime  DateTime
+  endTime    DateTime
+  location   String
+  assignment Assignment?
+}
+
+model Assignment {
+  id      Int   @id @default(autoincrement())
+  userId  Int   @unique
+  shiftId Int   @unique
+  shift   Shift @relation(fields: [shiftId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  SOLDIER
+  COMMANDER
+}

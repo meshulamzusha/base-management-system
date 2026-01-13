@@ -1,9 +1,5 @@
 import { IsEmail, IsEnum, IsString, MinLength } from 'class-validator';
-
-export enum Role {
-  SOLDIER = 'soldier',
-  COMMANDER = 'commander',
-}
+import { Role } from 'src/generated/prisma/enums';
 
 export class RegisterDto {
   @IsString()
