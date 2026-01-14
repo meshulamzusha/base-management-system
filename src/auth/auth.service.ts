@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
 import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { User, Prisma } from '../generated/prisma/client.js';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 

@@ -1,11 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateShiftDto } from './dto/create-shift.dto';
 import { UpdateShiftDto } from './dto/update-shift.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class ShiftsService {
-  create(createShiftDto: CreateShiftDto) {
-    return 'This action adds a new shift';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createShiftDto: CreateShiftDto) {
+    return await this.prisma.shift.create({
+      data: {
+        startTime: createShiftDto.startTime,
+        endTime: createShiftDto.endTime,
+        location: createShiftDto.location
+      }
+    })
   }
 
   findAll() {
@@ -21,6 +30,6 @@ export class ShiftsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} shift`;
+    ;
   }
 }
