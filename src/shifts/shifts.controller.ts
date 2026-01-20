@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { ShiftsService } from './shifts.service';
 import { CreateShiftDto } from './dto/create-shift.dto';
 import { UpdateShiftDto } from './dto/update-shift.dto';
@@ -19,13 +19,14 @@ export class ShiftsController {
   }
 
   @Get()
+  @Roles(Role.COMMANDER)
   findAll() {
     return this.shiftsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.shiftsService.findOne(+id);
+  @Get('my')
+  findOne(@Req() req) {
+    return this.shiftsService.findByUser(req.user.sub);
   }
 
   @Patch(':id')

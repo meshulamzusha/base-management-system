@@ -1,15 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class AssignmentsService {
-  create(createAssignmentDto: CreateAssignmentDto) {
-    return 'This action adds a new assignment';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(userId: number, shiftId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    })
+
+    if (!user) {
+      throw new NotFoundException(`User with id ${userId} not exist`)
+    }
+
+    const shift = await this.prisma.shift.findUnique({
+      where: {id: shiftId},
+    })
+
+    if (!shift) {
+      throw new NotFoundException(`Shift with id ${shiftId} not exist`)
+    }
+
+    return this.prisma.assignment.create({
+      data: {
+        userId: userId,
+        shiftId: shiftId
+      }
+    })
   }
 
   findAll() {
-    return `This action returns all assignments`;
+    const user = this.prisma.assignment.findMany({
+      include: { user: true, shift: true}
+    })
   }
 
   findOne(id: number) {

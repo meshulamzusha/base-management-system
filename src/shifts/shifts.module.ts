@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ShiftsService } from './shifts.service';
 import { ShiftsController } from './shifts.controller';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from 'src/auth/guards/role.guard';
 import { PrismaService } from 'src/prisma.service';
-// import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -15,9 +12,6 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [ShiftsController],
-  providers: [
-    ShiftsService,
-    PrismaService,
-  ],
+  providers: [ShiftsService,PrismaService,],
 })
 export class ShiftsModule { }

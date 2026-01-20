@@ -4,10 +4,10 @@ CREATE TYPE "Role" AS ENUM ('SOLDIER', 'COMMANDER');
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "email" TEXT,
-    "name" TEXT,
-    "password" TEXT,
-    "role" "Role",
+    "email" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "role" "Role" NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -15,9 +15,9 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Shift" (
     "id" SERIAL NOT NULL,
-    "startTime" TIMESTAMP(3),
-    "endTime" TIMESTAMP(3),
-    "location" TEXT,
+    "startTime" TEXT NOT NULL,
+    "endTime" TEXT NOT NULL,
+    "location" TEXT NOT NULL,
 
     CONSTRAINT "Shift_pkey" PRIMARY KEY ("id")
 );
@@ -41,7 +41,7 @@ CREATE UNIQUE INDEX "Assignment_userId_key" ON "Assignment"("userId");
 CREATE UNIQUE INDEX "Assignment_shiftId_key" ON "Assignment"("shiftId");
 
 -- AddForeignKey
-ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_shiftId_fkey" FOREIGN KEY ("shiftId") REFERENCES "Shift"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_shiftId_fkey" FOREIGN KEY ("shiftId") REFERENCES "Shift"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

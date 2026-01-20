@@ -17,12 +17,18 @@ export class ShiftsService {
     })
   }
 
-  findAll() {
-    return `This action returns all shifts`;
+  async findAll() {
+    return await this.prisma.shift.findMany()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} shift`;
+  async findByUser(userId: number) {
+    return this.prisma.shift.findMany({
+      where: {
+        assignment: {
+          userId 
+        },
+      },
+    })
   }
 
   update(id: number, updateShiftDto: UpdateShiftDto) {
